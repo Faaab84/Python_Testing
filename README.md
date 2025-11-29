@@ -142,7 +142,7 @@ Then open a web browser and go to `http://127.0.0.1:8089`
 
 ### This is the chart of the result of performance testing.
 
-![Performance charts](docs/loc2.png)
+![Performance charts](docs/loc3.png)
 
 ## 7. Quality 
 
