@@ -15,6 +15,9 @@
 
         Whereas Django does a lot of things for us out of the box, Flask allows us to add only what we need. 
      
+  
+
+
 
     * [Virtual environment](https://virtualenv.pypa.io/en/stable/installation.html)
 
