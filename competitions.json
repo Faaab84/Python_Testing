@@ -14,6 +14,11 @@
             "name": " Classic",
             "date": "2026-10-22 13:30:00",
             "numberOfPlaces": "13"
+        },
+        {
+            "name": " Classic0",
+            "date": "2026-10-22 13:30:00",
+            "numberOfPlaces": "3"
         }
     ]
 }
