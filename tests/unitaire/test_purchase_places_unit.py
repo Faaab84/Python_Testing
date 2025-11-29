@@ -9,6 +9,7 @@ COMPETITIONS = [
 
 CLUB = {"name": "Iron Temple", "points": "30"}
 
+
 def reserver(competition_name, places):
 
     competition = None
@@ -47,12 +48,14 @@ def test_plus_de_12_places_refuse():
     assert "Max 12 places" in msg
     print("Plus de 12 places → refusée")
 
+
 def test_12_places_acceptee():
     CLUB["points"] = "30"
     success, msg = reserver("Big Comp", 12)
     assert success is True
     assert CLUB["points"] == "18"
     print("12 places → acceptée")
+
 
 def test_pas_assez_de_points():
     CLUB["points"] = "8"
@@ -61,17 +64,20 @@ def test_pas_assez_de_points():
     assert "Not enough points" in msg
     print("Pas assez de points → refusée")
 
+
 def test_competition_passee():
     CLUB["points"] = "30"
     success, msg = reserver("Fall Classic", 5)
     assert success is False
     print("Compétition passée → impossible")
 
+
 def test_pas_assez_de_places_disponibles():
     CLUB["points"] = "30"
     success, msg = reserver("Tiny Comp", 5)
     assert success is False
     print("Plus de places que disponibles → refusée")
+
 
 def test_reservation_ok():
     CLUB["points"] = "30"

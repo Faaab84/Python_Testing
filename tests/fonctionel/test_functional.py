@@ -9,6 +9,7 @@ import time
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 driver.maximize_window()
 
+
 def test_parcours_complet():
     try:
         driver.get("http://127.0.0.1:5000")
@@ -16,8 +17,6 @@ def test_parcours_complet():
         driver.find_element(By.TAG_NAME, "button").click()
         time.sleep(2)
         print("Connexion OK")
-
-
         driver.get("http://127.0.0.1:5000/book/Classic1/Simply%20Lift")
         time.sleep(2)
 
@@ -53,5 +52,3 @@ def test_parcours_complet():
     finally:
         time.sleep(5)
         driver.quit()
-
-

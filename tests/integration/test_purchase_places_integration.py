@@ -1,4 +1,3 @@
-
 import pytest
 from server import app, clubs, competitions
 
@@ -12,9 +11,6 @@ def reset_les_donnees():
             club["points"] = "4"
         elif club["name"] == "She Lifts":
             club["points"] = "12"
-
-
-
 COMPETITION_OK = "Classic1"
 COMPETITION_PASSEE = "Spring Festival"
 COMPETITION_PEU_DE_PLACES = "Classic0"
@@ -136,4 +132,3 @@ def test_club_inconnu():
         texte = reponse.data.decode()
         assert "Something went wrong" in texte
         print("Club inconnu → OK")
-
