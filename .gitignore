@@ -7,5 +7,4 @@ __pycache__
 .git
 .env
 .idea
-.flake8
 flake8_report
