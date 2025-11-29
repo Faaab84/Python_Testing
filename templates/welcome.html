@@ -8,6 +8,7 @@
     <h2>Welcome, {{ club['email'] }} </h2>
     <a href="{{ url_for('logout') }}">Logout</a>
 
+
     {% with messages = get_flashed_messages() %}
         {% if messages %}
             <ul style="color: red; font-weight: bold; background: #ffeeee; padding: 15px; border: 2px solid red; border-radius: 8px; list-style: none; margin: 20px 0;">
