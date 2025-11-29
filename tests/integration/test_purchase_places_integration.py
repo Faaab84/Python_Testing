@@ -15,9 +15,9 @@ def reset_les_donnees():
 
 
 
-COMPETITION_OK = " Classic1"
+COMPETITION_OK = "Classic1"
 COMPETITION_PASSEE = "Spring Festival"
-COMPETITION_PEU_DE_PLACES = " Classic0"
+COMPETITION_PEU_DE_PLACES = "Classic0"
 
 
 def test_champ_vide():
@@ -92,7 +92,7 @@ def test_competition_passee():
 def test_pas_assez_de_places_disponibles():
     reset_les_donnees()
     for comp in competitions:
-        if comp["name"] == " Classic0":
+        if comp["name"] == "Classic0":
             comp["numberOfPlaces"] = "3"
 
     with app.test_client() as client:

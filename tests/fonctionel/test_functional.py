@@ -18,7 +18,7 @@ def test_parcours_complet():
         print("Connexion OK")
 
 
-        driver.get("http://127.0.0.1:5000/book/%20Classic1/Simply%20Lift")
+        driver.get("http://127.0.0.1:5000/book/Classic1/Simply%20Lift")
         time.sleep(2)
 
         places = driver.find_element(By.NAME, "places")
@@ -30,7 +30,7 @@ def test_parcours_complet():
         assert "Great-booking complete!" in driver.page_source
         print("Réservation de 5 places → OK")
 
-        driver.get("http://127.0.0.1:5000/book/%20Classic1/Simply%20Lift")
+        driver.get("http://127.0.0.1:5000/book/Classic1/Simply%20Lift")
         time.sleep(2)
 
         places = driver.find_element(By.NAME, "places")
