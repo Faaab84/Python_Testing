@@ -121,7 +121,7 @@ def test_reservation_reussie():
                 she_lifts = club
                 break
         assert "Great-booking complete!" in texte
-        assert she_lifts["points"] == "4"  # 12 - 8
+        assert she_lifts["points"] == "4"
         print("Réservation réussie → OK")
 
 
