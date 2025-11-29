@@ -158,3 +158,19 @@ flake8 .
 ![Flake8 report](docs/flake8.png)
 
 
+
+### Branch Naming Convention
+
+>  Note: The default branch for this project is named `master`, following the original repository structure.
+
+We use the following branch naming convention:
+* `feature/branch-name` - for new features
+* `bug/branch-name` - for bug fixes
+* `quality/branch-name` - for code quality improvements
+* `QA` - for review before integration
+
+
+##  Author
+This project was developed by Magnott in September 2025 as part of the Python Application Developer program at OpenClassrooms.
+
+
