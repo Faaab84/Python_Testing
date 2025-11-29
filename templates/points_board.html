@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Table points</title>
+    <style>
+        table { border-collapse: collapse; width: 50%; margin: 20px auto; }
+        th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        a { margin: 20px; display: inline-block; }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Points table</h1>
+
+    <table>
+        <tr>
+            <th>Club</th>
+            <th>Points </th>
+        </tr>
+        {% for club in clubs %}
+        <tr>
+            <td>{{ club['name'] }}</td>
+            <td>{{ club['points'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <br>
+<br><br>
+<br><br>
+    <button onclick="history.back()" style="padding: 12px 25px; background: #0066cc; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+    ← Previous
+    </button>
+</body>
+</html>

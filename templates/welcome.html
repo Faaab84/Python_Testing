@@ -20,7 +20,7 @@
     {% endwith %}
 
     <p><strong>Points available:</strong> {{ club['points'] }}</p>
-
+    <a href="{{ url_for('points_board') }}" style="margin-left: 20px; color: blue;">Display all clubs points</a>
     <h3>Competitions:</h3>
     <ul>
         {% for comp in competitions %}
