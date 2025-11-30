@@ -93,6 +93,7 @@ The project structure is as follows:
 │       ├── test_email_unit.py
 │       └── test_purchase_places_unit.py
 
+
 ```
 
 
