@@ -76,6 +76,11 @@ The project structure is as follows:
 ├── locustfile.py
 ├── requirements.txt
 ├── server.py
+├── docs  # image
+│   ├── cov.png
+│   ├── flake8.png
+│   ├── loc1.png
+│   └── loc3.png
 ├── templates  # HTML templates folder
 │   ├── booking.html
 │   ├── index.html
