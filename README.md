@@ -79,7 +79,7 @@ The project structure is as follows:
 ├── docs  # image
 │   ├── cov.png
 │   ├── flake8.png
-│   ├── loc1.png
+│   ├── loc1.png   #locust
 │   └── loc3.png
 ├── templates  # HTML templates folder
 │   ├── booking.html
