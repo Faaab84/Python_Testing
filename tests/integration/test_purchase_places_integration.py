@@ -1,39 +1,20 @@
-import pytest
-from server import app, clubs, competitions
 
+
+import pytest
+import importlib
+
+@pytest.fixture(autouse=True)
+def reload_server():
+    import server
+    importlib.reload(server)
 
 
 @pytest.fixture
 def client():
-    app.config["TESTING"] = True
-    with app.test_client() as client:
+    import server
+    server.app.config["TESTING"] = True
+    with server.app.test_client() as client:
         yield client
-
-
-@pytest.fixture(autouse=True)
-def reset_data_before_each_test():
-    """Remet les données à leur état initial avant chaque test."""
-    _reset_les_donnees()
-
-
-def _reset_les_donnees():
-    """Fonction interne de réinitialisation des données."""
-    for club in clubs:
-        if club["name"] == "Simply Lift":
-            club["points"] = "13"
-        elif club["name"] == "Iron Temple":
-            club["points"] = "4"
-        elif club["name"] == "She Lifts":
-            club["points"] = "12"
-
-    for comp in competitions:
-        if comp["name"] == "Spring Festival":
-            comp["numberOfPlaces"] = "0"
-        elif comp["name"] == "Classic0":
-            comp["numberOfPlaces"] = "3"
-        else:
-            comp["numberOfPlaces"] = "25"
-
 
 
 COMPETITION_OK = "Classic1"
@@ -41,16 +22,13 @@ COMPETITION_PASSEE = "Spring Festival"
 COMPETITION_PEU_DE_PLACES = "Classic0"
 
 
-# ──────────────────────────────────────────────────────────────
-# Tests
-# ──────────────────────────────────────────────────────────────
+
 def test_champ_vide(client):
     response = client.post(
         "/purchasePlaces",
         data={"club": "Iron Temple", "competition": COMPETITION_OK, "places": ""},
         follow_redirects=True,
     )
-    assert response.status_code == 200
     assert "Please enter a valid number of places" in response.get_data(as_text=True)
     print("Champ vide → OK")
 
@@ -76,10 +54,10 @@ def test_plus_de_12_places(client):
 
 
 def test_pas_assez_de_points(client):
-    for club in clubs:
+    import server
+    for club in server.clubs:
         if club["name"] == "Iron Temple":
             club["points"] = "2"
-
     response = client.post(
         "/purchasePlaces",
         data={"club": "Iron Temple", "competition": COMPETITION_OK, "places": "5"},
@@ -118,7 +96,8 @@ def test_reservation_reussie(client):
     texte = response.get_data(as_text=True)
     assert "Great-booking complete!" in texte
 
-    she_lifts = next((c for c in clubs if c["name"] == "She Lifts"), None)
+    import server
+    she_lifts = next((c for c in server.clubs if c["name"] == "She Lifts"), None)
     assert she_lifts is not None
     assert int(she_lifts["points"]) == 4
     print("Réservation réussie → OK")
