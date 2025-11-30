@@ -17,6 +17,7 @@ def client():
         yield client
 
 
+
 COMPETITION_OK = "Classic1"
 COMPETITION_PASSEE = "Spring Festival"
 COMPETITION_PEU_DE_PLACES = "Classic0"
