@@ -123,7 +123,7 @@ The coverage report is generated using the `--cov` option. To generate a coverag
  ``` 
 
 ### Tests Coverage
-![Tests coverage](docs/cov.png)
+![Tests coverage](docs/covs.png)
 
 
 
