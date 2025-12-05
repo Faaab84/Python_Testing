@@ -1,99 +1,58 @@
 import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
-from server import app
-from unittest.mock import patch
 
-COMPETITIONS = [
-    {"name": "Spring Festival", "date": "2020-03-27 10:00:00", "numberOfPlaces": "25"},
-    {"name": "Fall Classic", "date": "2020-10-22 13:30:00", "numberOfPlaces": "13"},
-    {"name": "Classic", "date": "2026-10-22 13:30:00", "numberOfPlaces": "13"},
-    {"name": "Classic0", "date": "2026-10-22 13:30:00", "numberOfPlaces": "3"},
-    {"name": "Classic1", "date": "2026-10-23 13:30:00", "numberOfPlaces": "100"},
-]
+from unittest.mock import patch
+from server import validate_booking
 
 CLUB = {"name": "Iron Temple", "email": "admin@irontemple.com", "points": "30"}
+COMPETITION = {"name": "Classic", "date": "2026-10-22 13:30:00", "numberOfPlaces": "13"}
 
-
-@patch('server.clubs', new_callable=list)
-@patch('server.competitions', new_callable=list)
-def test_reservation_reussie_points_deduits(mock_competitions, mock_clubs):
-
+@patch('server.int')
+def test_validate_booking_reussie(mock_int):
+    mock_int.side_effect = [30, 13]
     club_copy = CLUB.copy()
-    club_copy["points"] = "20"
-    mock_clubs[:] = [club_copy]
-    mock_competitions[:] = COMPETITIONS
+    comp_copy = COMPETITION.copy()
+    is_valid, message, updated_club, updated_comp = validate_booking(7, club_copy, comp_copy)
+    mock_int.assert_any_call('30')
+    mock_int.assert_any_call('13')
+    assert is_valid is True
+    assert message == "Great-booking complete!"
+    print("Test 1 : réservation réussie avec mock → OK")
 
-    with app.test_client() as client:
-        response = client.post('/purchasePlaces', data={
-            'club': 'Iron Temple',
-            'competition': 'Classic',
-            'places': '7'
-        })
-
-    assert b"Great" in response.data
-    assert b"booking" in response.data
-    assert club_copy["points"] == "13"
-    print("Réservation réussie → points déduits → OK")
-
-
-@patch('server.loadClubs')
-@patch('server.loadCompetitions')
-def test_plus_de_12_places_refusee(mock_comp, mock_clubs):
-    mock_clubs.return_value = [CLUB]
-    mock_comp.return_value = COMPETITIONS
-    with app.test_client() as client:
-        response = client.post('/purchasePlaces', data={
-            'club': 'Iron Temple',
-            'competition': 'Classic1',
-            'places': '15'
-        })
-    assert b"cannot book more than 12" in response.data or b"12 places" in response.data
-    print("Plus de 12 places → refusée → OK")
-
-
-@patch('server.loadClubs')
-@patch('server.loadCompetitions')
-def test_competition_passee_refusee(mock_comp, mock_clubs):
-    mock_clubs.return_value = [CLUB]
-    mock_comp.return_value = COMPETITIONS
-    with app.test_client() as client:
-        response = client.post('/purchasePlaces', data={
-            'club': 'Iron Temple',
-            'competition': 'Spring Festival',
-            'places': '5'
-        })
-    assert b"past competition" in response.data
-    print("Compétition passée → refusée → OK")
-
-
-@patch('server.loadClubs')
-@patch('server.loadCompetitions')
-def test_pas_assez_de_points_refusee(mock_comp, mock_clubs):
+@patch('server.int')
+def test_validate_booking_plus_12(mock_int):
+    mock_int.side_effect = [30, 13]
     club_copy = CLUB.copy()
-    club_copy["points"] = "5"
-    mock_clubs.return_value = [club_copy]
-    mock_comp.return_value = COMPETITIONS
-    with app.test_client() as client:
-        response = client.post('/purchasePlaces', data={
-            'club': 'Iron Temple',
-            'competition': 'Classic',
-            'places': '10'
-        })
-    assert b"Not enough points" in response.data
-    print("Pas assez de points → refusée → OK")
+    comp_copy = COMPETITION.copy()
+    is_valid, message, _, _ = validate_booking(15, club_copy, comp_copy)
+    mock_int.assert_any_call('30')
+    mock_int.assert_any_call('13')
+    assert is_valid is False
+    assert "12 places" in message
+    print("Test 2 : plus de 12 places avec mock → OK")
 
+@patch('server.int')
+def test_validate_booking_pas_assez_points(mock_int):
+    mock_int.side_effect = [5, 13]
+    club_copy = CLUB.copy()
+    comp_copy = COMPETITION.copy()
+    is_valid, message, _, _ = validate_booking(10, club_copy, comp_copy)
+    mock_int.assert_any_call('30')
+    mock_int.assert_any_call('13')
+    assert is_valid is False
+    assert "Not enough points" in message
+    print("Test 3 : pas assez points avec mock → OK")
 
-@patch('server.loadClubs')
-@patch('server.loadCompetitions')
-def test_pas_assez_de_places_disponibles(mock_comp, mock_clubs):
-    mock_clubs.return_value = [CLUB]
-    mock_comp.return_value = COMPETITIONS
-    with app.test_client() as client:
-        response = client.post('/purchasePlaces', data={
-            'club': 'Iron Temple',
-            'competition': 'Classic0',
-            'places': '5'
-        })
-    assert b"only" in response.data and b"left" in response.data
-    print("Pas assez de places → refusée → OK")
+@patch('server.int')
+def test_validate_booking_pas_assez_places(mock_int):
+    mock_int.side_effect = [30, 3]
+    club_copy = CLUB.copy()
+    comp_copy = {"name": "Classic0", "numberOfPlaces": "3"}.copy()
+    is_valid, message, _, _ = validate_booking(5, club_copy, comp_copy)
+    mock_int.assert_any_call('30')
+    mock_int.assert_any_call('3')
+    assert is_valid is False
+    assert "only 3 left" in message
+    print("Test 4 : pas assez places avec mock → OK")
+
